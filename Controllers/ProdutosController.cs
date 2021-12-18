@@ -6,13 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using teste.Data;
+using Microsoft.AspNetCore.Cors;
 
 namespace teste.Controllers
 {
+    [EnableCors("AllowSpecificOrigin")]
     [Route("api/[controller]")]
     [ApiController]
+    
     public class ProdutosController : ControllerBase
     {
+        
         private readonly AppDbContext _context;
 
         public ProdutosController(AppDbContext context)

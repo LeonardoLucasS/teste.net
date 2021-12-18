@@ -35,11 +35,20 @@ namespace teste
             services.AddDbContextPool<AppDbContext>(options =>
                 options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
 
+
+            services.AddCors(options =>
+        {
+            options.AddPolicy(
+                 "AllowOrigin",
+                 builder =>
+builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+        });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "teste", Version = "v1" });
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,7 +66,12 @@ namespace teste
             app.UseRouting();
 
             app.UseAuthorization();
-
+           app.UseCors(x =>
+        {
+            x.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
